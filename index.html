@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="bn">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>জমির হিসাব (কপি সুবিধা সহ)</title>
+    <title>জমির হিসাব (ডেসিমাল অংশ সহ)</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -11,14 +12,16 @@
             margin: 0;
             padding: 20px;
         }
+
         .container {
             max-width: 950px;
             margin: 0 auto;
             background: #ffffff;
             padding: 20px 30px;
             border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
+
         h2 {
             text-align: center;
             color: #2c3e50;
@@ -26,12 +29,14 @@
             padding-bottom: 10px;
             margin-bottom: 5px;
         }
+
         p.subtitle {
             text-align: center;
             color: #7f8c8d;
             margin-bottom: 25px;
             font-size: 15px;
         }
+
         .owner-row {
             display: flex;
             flex-wrap: wrap;
@@ -44,27 +49,32 @@
             border: 1px solid #e9ecef;
             transition: 0.3s;
         }
+
         .owner-row:hover {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             border-color: #bdc3c7;
         }
+
         .owner-label {
             font-weight: bold;
             color: #2c3e50;
             width: 80px;
             font-size: 16px;
         }
+
         .input-group {
             display: flex;
             flex-direction: column;
             width: 135px;
         }
+
         .input-group span {
             font-size: 13px;
             color: #555;
             margin-bottom: 5px;
             font-weight: 600;
         }
+
         select {
             padding: 8px 5px;
             border: 1px solid #ced4da;
@@ -75,14 +85,17 @@
             cursor: pointer;
             outline: none;
         }
+
         select:focus {
             border-color: #3498db;
         }
+
         .button-group {
             display: flex;
             gap: 5px;
             margin-top: 20px;
         }
+
         .btn-copy {
             background-color: #f39c12;
             color: white;
@@ -93,9 +106,11 @@
             font-size: 13px;
             font-weight: bold;
         }
+
         .btn-copy:hover {
             background-color: #e67e22;
         }
+
         .btn-remove {
             background-color: #e74c3c;
             color: white;
@@ -105,9 +120,11 @@
             cursor: pointer;
             font-size: 13px;
         }
+
         .btn-remove:hover {
             background-color: #c0392b;
         }
+
         .btn-add {
             background-color: #3498db;
             color: white;
@@ -119,15 +136,18 @@
             display: block;
             margin: 0 auto 20px auto;
         }
+
         .btn-add:hover {
             background-color: #2980b9;
         }
+
         .action-buttons {
             text-align: center;
             margin-top: 25px;
             border-top: 1px solid #eee;
             padding-top: 20px;
         }
+
         .btn-calc {
             background-color: #27ae60;
             color: white;
@@ -138,9 +158,11 @@
             cursor: pointer;
             font-weight: bold;
         }
+
         .btn-calc:hover {
             background-color: #219150;
         }
+
         .btn-reset {
             background-color: #95a5a6;
             color: white;
@@ -151,9 +173,11 @@
             cursor: pointer;
             margin-left: 10px;
         }
+
         .btn-reset:hover {
             background-color: #7f8c8d;
         }
+
         .result-box {
             margin-top: 25px;
             padding: 20px;
@@ -163,89 +187,148 @@
             font-weight: bold;
             display: none;
         }
+
         .success {
             background-color: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
         }
+
         .error {
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+
         .details {
             font-size: 16px;
             color: #444;
             margin-top: 10px;
             font-weight: normal;
         }
+
+        .decimal-box {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #e8f4f8;
+            border: 2px solid #3498db;
+            display: none;
+        }
+
+        .decimal-box h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+
+        .decimal-box p {
+            color: #7f8c8d;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .decimal-textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            resize: none;
+        }
+
+        .btn-copy-all {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .btn-copy-all:hover {
+            background-color: #e67e22;
+        }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h2>খতিয়ানের জমির অংশ হিসাব</h2>
-    <p class="subtitle">একাধিক মালিকের অংশ সমান হলে "কপি" বাটনে ক্লিক করে সহজেই নতুন সারি তৈরি করতে পারবেন।</p>
+    <div class="container">
+        <h2>খতিয়ানের জমির অংশ হিসাব</h2>
+        <p class="subtitle">একাধিক মালিকের অংশ সমান হলে "কপি" বাটনে ক্লিক করে সহজেই নতুন সারি তৈরি করতে পারবেন।</p>
 
-    <div id="owners-container">
-        <!-- Rows will be generated here -->
+        <div id="owners-container">
+            <!-- Rows will be generated here -->
+        </div>
+
+        <button class="btn-add" onclick="addOwner()">+ নতুন মালিক যোগ করুন</button>
+
+        <div class="action-buttons">
+            <button class="btn-calc" onclick="calculateTotal()">ফলাফল হিসাব করুন</button>
+            <button class="btn-reset" onclick="resetAll()">রিসেট</button>
+        </div>
+
+        <div id="result" class="result-box">
+            <div id="result-text"></div>
+            <div id="result-details" class="details"></div>
+        </div>
+
+        <div id="decimal-box" class="decimal-box">
+            <h3>📋 সব মালিকের অংশ (ডেসিমাল ফরম্যাটে)</h3>
+            <p>নিচের টেক্সট বক্স থেকে প্রতিটি মালিকের অংশ কপি করুন এবং তাদের নিজস্ব ফিল্ডে বসান।</p>
+            <textarea id="decimal-text" class="decimal-textarea" readonly></textarea>
+            <button class="btn-copy-all" onclick="copyAllDecimals()">📋 সব কিছু কপি করুন</button>
+        </div>
     </div>
 
-    <button class="btn-add" onclick="addOwner()">+ নতুন মালিক যোগ করুন</button>
+    <script>
+        // ইংরেজি সংখ্যাকে বাংলায় রূপান্তরের ফাংশন
+        function enToBn(num) {
+            const banglaDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+            return num.toString().split('').map(digit => banglaDigits[digit] || digit).join('');
+        }
 
-    <div class="action-buttons">
-        <button class="btn-calc" onclick="calculateTotal()">ফলাফল হিসাব করুন</button>
-        <button class="btn-reset" onclick="resetAll()">রিসেট</button>
-    </div>
+        // সঠিক চিহ্নগুলো
+        const anaSymbols = [
+            "০ = ০ আনা", "⁄ = ১ আনা", "৵ = ২ আনা", "৶ = ৩ আনা", "৷ = ৪ আনা",
+            "৷⁄ = ৫ আনা", "৷৵ = ৬ আনা", "৷৶ = ৭ আনা", "৷৷ = ৮ আনা", "৷৷⁄ = ৯ আনা",
+            "৷৷৵ = ১০ আনা", "৷৷৶ = ১১ আনা", "৸ = ১২ আনা", "৸⁄ = ۱۳ আনা", "৸৵ = ১৪ আনা",
+            "৸৶ = ১৫ আনা", "১৬ = ১৬ আনা"
+        ];
 
-    <div id="result" class="result-box">
-        <div id="result-text"></div>
-        <div id="result-details" class="details"></div>
-    </div>
-</div>
 
-<script>
-    // ইংরেজি সংখ্যাকে বাংলায় রূপান্তরের ফাংশন
-    function enToBn(num) {
-        const banglaDigits = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
-        return num.toString().split('').map(digit => banglaDigits[digit] || digit).join('');
-    }
+        const koraSymbols = ["০ = ০ কড়া", "৷ = ১ কড়া", "৷৷ = ২ কড়া", "৸ = ৩ কড়া"];
+        const krantiSymbols = ["০ = ০ ক্রান্তি", "৴ = ১ ক্রান্তি", "৴৴ = ২ ক্রান্তি"];
 
-    // সঠিক চিহ্নগুলো
-    const anaSymbols = [
-        "০ = ০ আনা", "⁄ = ১ আনা", "৵ = ২ আনা", "৶ = ৩ আনা", "৷ = ৪ আনা",
-        "৷⁄ = ৫ আনা", "৷৵ = ৬ আনা", "৷৶ = ৭ আনা", "৷৷ = ৮ আনা", "৷৷⁄ = ৯ আনা",
-        "৷৷৵ = ১০ আনা", "৷৷৶ = ১১ আনা", "৸ = ১২ আনা", "৸⁄ = ۱۳ আনা", "৸৵ = ১৪ আনা",
-        "৸৶ = ১৫ আনা", "১৬ = ১৬ আনা"
-    ];
-    
-    const koraSymbols = ["০ = ০ কড়া", "৷ = ১ কড়া", "৷৷ = ২ কড়া", "৸ = ৩ কড়া"];
-    const krantiSymbols = ["০ = ০ ক্রান্তি", "৴ = ১ ক্রান্তি", "৴৴ = ২ ক্রান্তি"];
+        function buildOptions(array) {
+            return array.map((text, index) => `<option value="${index}">${text}</option>`).join('');
+        }
 
-    function buildOptions(array) {
-        return array.map((text, index) => `<option value="${index}">${text}</option>`).join('');
-    }
+        function buildGondaOptions() {
+            let opts = '';
+            for (let i = 0; i <= 19; i++) opts += `<option value="${i}">${enToBn(i)} = ${enToBn(i)} গণ্ডা</option>`;
+            return opts;
+        }
 
-    function buildGondaOptions() {
-        let opts = '';
-        for(let i = 0; i <= 19; i++) opts += `<option value="${i}">${enToBn(i)} = ${enToBn(i)} গণ্ডা</option>`;
-        return opts;
-    }
+        function buildTilOptions() {
+            let opts = '';
+            for (let i = 0; i <= 19; i++) opts += `<option value="${i}">${enToBn(i)} = ${enToBn(i)} তিল</option>`;
+            return opts;
+        }
 
-    function buildTilOptions() {
-        let opts = '';
-        for(let i = 0; i <= 19; i++) opts += `<option value="${i}">${enToBn(i)} = ${enToBn(i)} তিল</option>`;
-        return opts;
-    }
+        const container = document.getElementById('owners-container');
 
-    const container = document.getElementById('owners-container');
+        // নতুন মালিক যোগ করার ফাংশন
+        function addOwner(vAna = 0, vGonda = 0, vKora = 0, vKranti = 0, vTil = 0) {
+            const div = document.createElement('div');
+            div.className = 'owner-row';
 
-    // নতুন মালিক যোগ করার ফাংশন (আগের ভ্যালু দিয়েও তৈরি করা যাবে)
-    function addOwner(vAna = 0, vGonda = 0, vKora = 0, vKranti = 0, vTil = 0) {
-        const div = document.createElement('div');
-        div.className = 'owner-row';
-        
-        div.innerHTML = `
+            div.innerHTML = `
             <div class="owner-label">মালিক</div>
             <div class="input-group">
                 <span>আনা (Ana)</span>
@@ -256,7 +339,7 @@
                 <select class="gonda">${buildGondaOptions()}</select>
             </div>
             <div class="input-group">
-                <span>কড়া (Kora)</span>
+                <span>কড়া (Kora)</span>
                 <select class="kora">${buildOptions(koraSymbols)}</select>
             </div>
             <div class="input-group">
@@ -272,111 +355,140 @@
                 <button class="btn-remove" title="এই মালিককে মুছে ফেলুন" onclick="removeOwner(this)">মুছুন</button>
             </div>
         `;
-        
-        container.appendChild(div);
 
-        // যদি কপি করা ভ্যালু থাকে, তবে সেগুলো সেট করে দেওয়া
-        div.querySelector('.ana').value = vAna;
-        div.querySelector('.gonda').value = vGonda;
-        div.querySelector('.kora').value = vKora;
-        div.querySelector('.kranti').value = vKranti;
-        div.querySelector('.til').value = vTil;
+            container.appendChild(div);
 
-        updateLabels();
-    }
+            // যদি কপি করা ভ্যালু থাকে, তবে সেগুলো সেট করে দেওয়া
+            div.querySelector('.ana').value = vAna;
+            div.querySelector('.gonda').value = vGonda;
+            div.querySelector('.kora').value = vKora;
+            div.querySelector('.kranti').value = vKranti;
+            div.querySelector('.til').value = vTil;
 
-    // বর্তমান মালিকের অংশ কপি করার ফাংশন
-    function copyOwner(btn) {
-        const row = btn.closest('.owner-row');
-        const ana = row.querySelector('.ana').value;
-        const gonda = row.querySelector('.gonda').value;
-        const kora = row.querySelector('.kora').value;
-        const kranti = row.querySelector('.kranti').value;
-        const til = row.querySelector('.til').value;
-
-        // একই ভ্যালু দিয়ে নতুন সারি তৈরি
-        addOwner(ana, gonda, kora, kranti, til);
-    }
-
-    function removeOwner(btn) {
-        const rows = document.querySelectorAll('.owner-row');
-        if (rows.length > 1) {
-            btn.closest('.owner-row').remove();
             updateLabels();
-        } else {
-            alert('কমপক্ষে ১ জন মালিক থাকতে হবে!');
         }
-    }
 
-    function updateLabels() {
-        const labels = document.querySelectorAll('.owner-label');
-        labels.forEach((label, index) => {
-            label.innerText = `মালিক ${enToBn(index + 1)}:`;
-        });
-    }
+        // বর্তমান মালিকের অংশ কপি করার ফাংশন
+        function copyOwner(btn) {
+            const row = btn.closest('.owner-row');
+            const ana = row.querySelector('.ana').value;
+            const gonda = row.querySelector('.gonda').value;
+            const kora = row.querySelector('.kora').value;
+            const kranti = row.querySelector('.kranti').value;
+            const til = row.querySelector('.til').value;
 
-    function calculateTotal() {
-        let totalTil = 0;
-        const rows = document.querySelectorAll('.owner-row');
-
-        rows.forEach(row => {
-            let ana = parseInt(row.querySelector('.ana').value);
-            let gonda = parseInt(row.querySelector('.gonda').value);
-            let kora = parseInt(row.querySelector('.kora').value);
-            let kranti = parseInt(row.querySelector('.kranti').value);
-            let til = parseInt(row.querySelector('.til').value);
-
-            totalTil += (ana * 4800) + (gonda * 240) + (kora * 60) + (kranti * 20) + til;
-        });
-
-        const FULL_PROPERTY_TIL = 76800; // ১৬ আনা = ৭৬৮০০ তিল
-
-        let remainingTil = totalTil;
-        let sumAna = Math.floor(remainingTil / 4800);
-        remainingTil %= 4800;
-        let sumGonda = Math.floor(remainingTil / 240);
-        remainingTil %= 240;
-        let sumKora = Math.floor(remainingTil / 60);
-        remainingTil %= 60;
-        let sumKranti = Math.floor(remainingTil / 20);
-        let sumFinalTil = remainingTil % 20;
-
-        const resultBox = document.getElementById('result');
-        const resultText = document.getElementById('result-text');
-        const resultDetails = document.getElementById('result-details');
-        
-        resultBox.style.display = 'block';
-        resultBox.className = 'result-box'; 
-
-        let detailsString = `সব মালিকের মোট যোগফল: <b>${enToBn(sumAna)}</b> আনা, <b>${enToBn(sumGonda)}</b> গণ্ডা, <b>${enToBn(sumKora)}</b> কড়া, <b>${enToBn(sumKranti)}</b> ক্রান্তি, <b>${enToBn(sumFinalTil)}</b> তিল।`;
-
-        if (totalTil === FULL_PROPERTY_TIL) {
-            resultBox.classList.add('success');
-            resultText.innerHTML = "✅ চমৎকার! সকল মালিকের মোট জমি ঠিক ১ অংশ (১৬ আনা) মিলেছে।";
-            resultDetails.innerHTML = detailsString;
-        } else if (totalTil > FULL_PROPERTY_TIL) {
-            resultBox.classList.add('error');
-            resultText.innerHTML = "❌ ভুল! যোগফল ১ অংশের (১৬ আনা) চেয়ে বেশি হয়ে গেছে।";
-            resultDetails.innerHTML = detailsString;
-        } else {
-            resultBox.classList.add('error');
-            resultText.innerHTML = "❌ ভুল! যোগফল ১ অংশের (১৬ আনা) চেয়ে কম আছে।";
-            resultDetails.innerHTML = detailsString;
+            // একই ভ্যালু দিয়ে নতুন সারি তৈরি
+            addOwner(ana, gonda, kora, kranti, til);
         }
-    }
 
-    function resetAll() {
-        const selects = document.querySelectorAll('select');
-        selects.forEach(select => select.value = 0);
-        document.getElementById('result').style.display = 'none';
-    }
+        function removeOwner(btn) {
+            const rows = document.querySelectorAll('.owner-row');
+            if (rows.length > 1) {
+                btn.closest('.owner-row').remove();
+                updateLabels();
+            } else {
+                alert('কমপক্ষে ১ জন মালিক থাকতে হবে!');
+            }
+        }
 
-    // পেজ লোড হলে ডিফল্টভাবে ১ জন মালিক তৈরি করা (কপি করা সহজ হবে)
-    window.onload = () => {
-        addOwner();
-    };
+        function updateLabels() {
+            const labels = document.querySelectorAll('.owner-label');
+            labels.forEach((label, index) => {
+                label.innerText = `মালিক ${enToBn(index + 1)}:`;
+            });
+        }
 
-</script>
+        function calculateTotal() {
+            let totalTil = 0;
+            const rows = document.querySelectorAll('.owner-row');
+            let ownerDecimals = [];
+
+            rows.forEach((row, index) => {
+                let ana = parseInt(row.querySelector('.ana').value);
+                let gonda = parseInt(row.querySelector('.gonda').value);
+                let kora = parseInt(row.querySelector('.kora').value);
+                let kranti = parseInt(row.querySelector('.kranti').value);
+                let til = parseInt(row.querySelector('.til').value);
+
+                const ownerTil = (ana * 4800) + (gonda * 240) + (kora * 60) + (kranti * 20) + til;
+                totalTil += ownerTil;
+
+                // ডেসিমাল অংশ হিসাব করুন
+                const decimalPortion = ownerTil / 76800;
+                ownerDecimals.push({
+                    number: index + 1,
+                    decimal: decimalPortion
+                });
+            });
+
+            const FULL_PROPERTY_TIL = 76800; // १६ আনা = ७६८०० তিল
+
+            let remainingTil = totalTil;
+            let sumAna = Math.floor(remainingTil / 4800);
+            remainingTil %= 4800;
+            let sumGonda = Math.floor(remainingTil / 240);
+            remainingTil %= 240;
+            let sumKora = Math.floor(remainingTil / 60);
+            remainingTil %= 60;
+            let sumKranti = Math.floor(remainingTil / 20);
+            let sumFinalTil = remainingTil % 20;
+
+            const resultBox = document.getElementById('result');
+            const resultText = document.getElementById('result-text');
+            const resultDetails = document.getElementById('result-details');
+            const decimalBox = document.getElementById('decimal-box');
+            const decimalText = document.getElementById('decimal-text');
+
+            resultBox.style.display = 'block';
+            decimalBox.style.display = 'block';
+            resultBox.className = 'result-box';
+
+            let detailsString = `সব মালিকের মোট যোগফল: <b>${enToBn(sumAna)}</b> আনা, <b>${enToBn(sumGonda)}</b> গণ্ডা, <b>${enToBn(sumKora)}</b> কড়া, <b>${enToBn(sumKranti)}</b> ক্রান্তি, <b>${enToBn(sumFinalTil)}</b> তিল।`;
+
+            // ডেসিমাল টেক্সট বিল্ড করুন
+            let decimalContent = "";
+            ownerDecimals.forEach((owner) => {
+                decimalContent += `মালিক ${enToBn(owner.number)}: ${owner.decimal}\n`;
+            });
+            decimalText.value = decimalContent;
+
+            if (totalTil === FULL_PROPERTY_TIL) {
+                resultBox.classList.add('success');
+                resultText.innerHTML = "✅ চমৎকার! সকল মালিকের মোট জমি ঠিক ১ অংশ (১৬ আনা) মিলেছে।";
+                resultDetails.innerHTML = detailsString;
+            } else if (totalTil > FULL_PROPERTY_TIL) {
+                resultBox.classList.add('error');
+                resultText.innerHTML = "❌ ভুল! যোগফল ১ অংশের (১৬ আনা) চেয়ে বেশি হয়ে গেছে।";
+                resultDetails.innerHTML = detailsString;
+            } else {
+                resultBox.classList.add('error');
+                resultText.innerHTML = "❌ ভুল! যোগফল ১ অংশের (১৬ আনা) চেয়ে কম আছে।";
+                resultDetails.innerHTML = detailsString;
+            }
+        }
+
+        function copyAllDecimals() {
+            const textarea = document.getElementById('decimal-text');
+            textarea.select();
+            document.execCommand('copy');
+            alert('সব অংশ কপি হয়েছে! ✅');
+        }
+
+        function resetAll() {
+            const selects = document.querySelectorAll('select');
+            selects.forEach(select => select.value = 0);
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('decimal-box').style.display = 'none';
+            document.getElementById('decimal-text').value = '';
+        }
+
+        // পেজ লোড হলে ডিফল্টভাবে १ জন মালিক তৈরি করা
+        window.onload = () => {
+            addOwner();
+        };
+
+    </script>
 
 </body>
+
 </html>
